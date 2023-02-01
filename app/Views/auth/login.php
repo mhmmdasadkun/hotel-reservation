@@ -19,17 +19,17 @@
                 <form method="post" action="login" autocomplete="off">
                     <?= csrf_field(); ?>
                     <div class="mb-3">
-                        <label for="email" class="form-label">Email Address</label>
-                        <input type="email" name="email" class="form-control <?= $validation->hasError('email') ? 'is-invalid' : ''; ?>" id="email" placeholder="Masukan email address" value="<?= set_value('email'); ?>">
+                        <label for="ad_email" class="form-label">Email Address</label>
+                        <input type="email" name="ad_email" class="form-control <?= $validation->hasError('ad_email') ? 'is-invalid' : ''; ?>" id="ad_email" placeholder="Masukan email address" value="<?= set_value('ad_email'); ?>">
                         <div class="invalid-feedback">
-                            <?= $validation->getError('email'); ?>
+                            <?= $validation->getError('ad_email'); ?>
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
-                        <input type="password" name="password" class="form-control <?= $validation->hasError('password') ? 'is-invalid' : ''; ?>" id=" password" placeholder="Masukan password">
+                        <label for="ad_password" class="form-label">Password</label>
+                        <input type="password" name="ad_password" class="form-control <?= $validation->hasError('ad_password') ? 'is-invalid' : ''; ?>" id="ad_password" placeholder="Masukan password">
                         <div class="invalid-feedback">
-                            <?= $validation->getError('password'); ?>
+                            <?= $validation->getError('ad_password'); ?>
                         </div>
                     </div>
                     <button class="btn btn-primary w-100" type="submit">Login</button>

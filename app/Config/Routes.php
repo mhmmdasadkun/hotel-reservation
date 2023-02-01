@@ -2,6 +2,8 @@
 
 namespace Config;
 
+use App\Controllers\RoomCategoryController;
+
 // Create a new instance of our RouteCollection class.
 $routes = Services::routes();
 
@@ -31,15 +33,24 @@ $routes->set404Override();
 // route since we don't have to scan directories.
 
 // Auth Routes
-$routes->group('', ['filter' => 'adminGuard'], static function ($routes) {
+$routes->group('', static function ($routes) {
     $routes->get('/', 'AuthController::index', ['as' => 'auth.login']);
     $routes->post('login', 'AuthController::index');
+    $routes->get('logout', 'AuthController::logout', ['as' => 'auth.logout']);
 });
 
 // Admin Routes
 $routes->group('admin', ['filter' => 'authGuard'], static function ($routes) {
-    $routes->get('dashboard', 'AdminController::index', ['as' => 'admin.dashboard']);
-    $routes->get('logout', 'AdminController::logout', ['as' => 'admin.logout']);
+    $routes->get('dashboard', 'DashboardController::index', ['as' => 'dashboard']);
+
+    $routes->get('rooms', 'RoomController::index', ['as' => 'room.list']);
+    $routes->get('room/add', 'RoomController::add', ['as' => 'room.add']);
+
+    $routes->get('room-categories', 'RoomCategoryController::index', ['as' => 'rcategory.list']);
+    $routes->match(['get', 'post'], 'room-category/add', 'RoomCategoryController::add', ['as' => 'rcategory.add']);
+    $routes->match(['get', 'post'], 'room-category/edit/(:num)', 'RoomCategoryController::edit/$1', ['as' => 'rcategory.edit']);
+    $routes->post('room-category/delete-all', 'RoomCategoryController::delete_all', ['as' => 'rcategory.delete_all']);
+    $routes->delete('room-category/delete/(:num)', 'RoomCategoryController::delete/$1', ['as' => 'rcategory.delete']);
 });
 /*
  * --------------------------------------------------------------------

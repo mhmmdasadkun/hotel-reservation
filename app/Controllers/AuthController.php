@@ -15,38 +15,46 @@ class AuthController extends BaseController
 
     public function index()
     {
-        if ($this->request->is('get')) {
-            $data['validation'] = $this->validation;
-            return view('auth/login', $data);
+        if (session()->get('isLogin') != null) {
+            return redirect()->route('dashboard');
         }
 
-        $this->validation->setRules([
-            'email' => ['label' => 'Email', 'rules' => 'required|valid_email'],
-            'password' => ['label' => 'Password', 'rules' => 'required']
-        ]);
+        if ($this->request->is('post')) {
+            $this->validation->setRules([
+                'ad_email' => ['label' => 'Email', 'rules' => 'required|valid_email'],
+                'ad_password' => ['label' => 'Password', 'rules' => 'required']
+            ]);
 
-        if (!$this->validation->withRequest($this->request)->run()) {
-            $data['validation'] = $this->validation;
-            return view('auth/login', $data);
-        } else {
-            $email = $this->request->getVar('email');
-            $password = $this->request->getVar('password');
+            if ($this->validation->withRequest($this->request)->run()) {
+                $ad_email = $this->request->getVar('ad_email');
+                $ad_password = $this->request->getVar('ad_password');
 
-            $data = $this->admin->where('email', $email)->first();
+                $data = $this->admin->getData($ad_email)->getRowArray();
 
-            if ($data && password_verify($password, $data['password'])) {
-                $sessions = [
-                    'id' => $data['id'],
-                    'username' => $data['username'],
-                    'email' => $data['email'],
-                    'isLogin' => true
-                ];
-                session()->set($sessions);
-                return redirect()->route('admin.dashboard');
-            } else {
-                session()->setFlashdata('danger', "Akun tidak terdaftar!");
-                return redirect()->route('auth.login');
+                if ($data && password_verify($ad_password, $data['ad_password'])) {
+                    $sessions = [
+                        'id' => $data['id'],
+                        'role_name' => $data['role_name'],
+                        'username' => $data['ad_username'],
+                        'email' => $data['ad_email'],
+                        'isLogin' => true
+                    ];
+                    session()->set($sessions);
+                    return redirect()->route('dashboard');
+                } else {
+                    session()->setFlashdata('danger', "Akun tidak terdaftar!");
+                    return redirect()->route('auth.login');
+                }
             }
         }
+
+        $data['validation'] = $this->validation;
+        return view('auth/login', $data);
+    }
+
+    public function logout()
+    {
+        session()->destroy();
+        return redirect()->route('auth.login');
     }
 }

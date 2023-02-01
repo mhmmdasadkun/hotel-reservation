@@ -14,7 +14,7 @@
                 <img src="<?= base_url('assets/img/profile.jpg') ?>" alt="Profile">
                 <div class="profile-info">
                     <span class="profile-title"><?= $session->username; ?></span>
-                    <span class="profile-subtitle">Role</span>
+                    <span class="profile-subtitle"><?= $session->role_name; ?></span>
                 </div>
             </div>
         </div>
