@@ -23,7 +23,7 @@
                          <span>Dashboard</span>
                      </a>
                  </li>
-                 <li class="nav-item <?= ($uri->getSegment(2) == "room-category" ? 'menu-collapsing' : ''); ?>">
+                 <li class="nav-item <?= ($uri->getSegment(2) == "room-category" || $uri->getSegment(2) == "room-facility" ? 'menu-collapsing' : ''); ?>">
                      <a href="javascript:void(0)" class="menu-collapse">
                          <i class="bx bxs-bed"></i>
                          <span>Kamar</span>
@@ -35,6 +35,9 @@
                              </li>
                              <li class="nav-item">
                                  <a href="<?= route_to('rcategory.list'); ?>" class="<?= ($uri->getSegment(2) == "room-category" ? 'active' : ''); ?>">Daftar Kategori</a>
+                             </li>
+                             <li class="nav-item">
+                                 <a href="<?= route_to('rfacility.list'); ?>" class="<?= ($uri->getSegment(2) == "room-facility" ? 'active' : ''); ?>">Daftar Fasilitas</a>
                              </li>
                          </ul>
                      </div>
